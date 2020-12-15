@@ -8,20 +8,9 @@ echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 sed -in 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 timedatectl set-timezone America/Sao_Paulo
 systemctl restart sshd chronyd
-
-if [ $(hostname) == "splunk" ] || [ $(hostname) == "Kolide" ]
-then
-
+yum update -y
 yum install net-tools wget -y
 
-else
-
-apt update -y
-timedatectl set-timezone America/Sao_Paulo
-sudo apt install chrony net-tools wget -y
-/etc/init.d/sshd restart 
-/etc/init.d/chronyd restart
-fi
 
 SHELL
 
