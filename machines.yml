@@ -1,0 +1,21 @@
+- name: Splunk
+  cpus: 1
+  memory: 1024
+  hostname: splunk
+  ip: 192.168.56.101
+  system: centos/7
+
+
+- name: Kolide
+  cpus: 1
+  memory: 1024
+  hostname: poc
+  ip: 192.168.56.102
+  system: centos/7
+
+- name: Linux
+  cpus: 1
+  memory: 1024
+  hostname: soc
+  ip: 192.168.56.103
+  system: ubuntu/trusty64
