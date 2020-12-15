@@ -1,5 +1,30 @@
 require 'yaml'
 
+$SETUP = <<-SHELL
+
+sudo su
+echo -e "change_me\nchange_me" | passwd root
+echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+sed -in 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+timedatectl set-timezone America/Sao_Paulo
+systemctl restart sshd chronyd
+
+if [ $(hostname) == "splunk" ] || [ $(hostname) == "Kolide" ]
+then
+
+yum install net-tools wget -y
+
+else
+
+apt update -y
+timedatectl set-timezone America/Sao_Paulo
+sudo apt install chrony net-tools wget -y
+/etc/init.d/sshd restart 
+/etc/init.d/chronyd restart
+fi
+
+SHELL
+
 yaml = YAML.load_file("machines.yml")
 
 Vagrant.configure("2") do |config|
