@@ -1,0 +1,21 @@
+require 'yaml'
+
+yaml = YAML.load_file("machines.yml")
+
+Vagrant.configure("2") do |config|
+  yaml.each do |server|
+
+    config.vm.define server["name"] do |srv|
+      srv.vm.box = server["system"]
+      srv.vm.network "private_network", ip: server["ip"]
+      srv.vm.hostname = server["hostname"]
+      srv.vm.provision "shell", privileged: true,inline: $SETUP
+      srv.vm.provider "virtualbox" do |vb|
+      srv.vm.disk :disk, size: "20GB", primary: true
+        vb.name = server["name"]
+        vb.memory = server["memory"]
+        vb.cpus = server["cpus"]
+      end
+    end
+  end
+end
