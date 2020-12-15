@@ -18,4 +18,4 @@
   memory: 1024
   hostname: soc
   ip: 192.168.56.103
-  system: ubuntu/trusty64
+  system: centos/7
